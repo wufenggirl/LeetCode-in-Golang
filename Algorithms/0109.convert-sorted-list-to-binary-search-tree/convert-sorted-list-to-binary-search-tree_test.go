@@ -1,10 +1,10 @@
-package Problem0109
+package problem0109
 
 import (
 	"fmt"
 	"testing"
 
-	"github.com/aQuaYi/LeetCode-in-Golang/kit"
+	"github.com/aQuaYi/LeetCode-in-Go/kit"
 
 	"github.com/stretchr/testify/assert"
 )
@@ -34,6 +34,6 @@ func Test_Problem0109(t *testing.T) {
 	for _, tc := range tcs {
 		fmt.Printf("~~%v~~\n", tc)
 
-		ast.Equal(tc.ans, kit.Tree2Inorder(sortedListToBST(kit.Slice2List(tc.head))), "输入:%v", tc)
+		ast.Equal(tc.ans, kit.Tree2Inorder(sortedListToBST(kit.Ints2List(tc.head))), "输入:%v", tc)
 	}
 }

@@ -1,8 +1,8 @@
-package Problem0095
+package problem0095
 
 import (
 	"fmt"
-	"github.com/aQuaYi/LeetCode-in-Golang/kit"
+	"github.com/aQuaYi/LeetCode-in-Go/kit"
 )
 
 type TreeNode = kit.TreeNode

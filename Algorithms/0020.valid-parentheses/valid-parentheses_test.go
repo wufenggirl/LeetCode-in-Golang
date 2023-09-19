@@ -1,4 +1,4 @@
-package Problem0020
+package problem0020
 
 import (
 	"fmt"
@@ -62,5 +62,11 @@ func Test_Problem0020(t *testing.T) {
 		fmt.Printf("~~%v~~\n", p)
 
 		ast.Equal(a.one, isValid(p.one), "输入:%v", p)
+	}
+}
+
+func Benchmark_isValid(b *testing.B) {
+	for i := 1; i < b.N; i++ {
+		isValid("{{{{{[[[[[((((()))))]]]]]}}}}}")
 	}
 }

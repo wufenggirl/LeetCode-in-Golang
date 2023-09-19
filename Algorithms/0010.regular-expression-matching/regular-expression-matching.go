@@ -1,45 +1,52 @@
-package Problem0010
+package problem0010
 
-// 程序中存在以下假设
-// "*" 不会出现在p的首位
-// "**" 不会出现，但会出现 ".*."" , ".*.." , ".*.*"
+func isMatch(s, p string) bool {
+	sSize := len(s)
+	pSize := len(p)
 
-func isMatch(s string, p string) bool {
-	dp := make([][]bool, len(p)+1)
+	dp := make([][]bool, sSize+1)
 	for i := range dp {
-		dp[i] = make([]bool, len(s)+1)
+		dp[i] = make([]bool, pSize+1)
 	}
+
+	/* dp[i][j] 代表了 s[:i] 能否与 p[:j] 匹配 */
 
 	dp[0][0] = true
-
-	for i := 2; i < len(dp); i += 2 {
-		if p[i-1] == '*' {
-			dp[i][0] = true
-		} else {
-			break
+	/**
+	 * 根据题目的设定， "" 可以与 "a*b*c*" 相匹配
+	 * 所以，需要把相应的 dp 设置成 true
+	 */
+	for j := 1; j < pSize && dp[0][j-1]; j += 2 {
+		if p[j] == '*' {
+			dp[0][j+1] = true
 		}
 	}
 
-	for i := 1; i < len(dp); i++ {
-		if i < len(p) && p[i] == '*' {
-			continue
-		}
-
-		for j := 1; j < len(dp[0]); j++ {
-
-			if p[i-1] == '*' {
-				if p[i-2] == '.' {
-					dp[i][j] = dp[i-2][j-1] || dp[i][j-1] || dp[i-2][j]
+	for i := 0; i < sSize; i++ {
+		for j := 0; j < pSize; j++ {
+			if p[j] == '.' || p[j] == s[i] {
+				/* p[j] 与 s[i] 可以匹配上，所以，只要前面匹配，这里就能匹配上 */
+				dp[i+1][j+1] = dp[i][j]
+			} else if p[j] == '*' {
+				/* 此时，p[j] 的匹配情况与 p[j-1] 的内容相关。 */
+				if p[j-1] != s[i] && p[j-1] != '.' {
+					/**
+					 * p[j] 无法与 s[i] 匹配上
+					 * p[j-1:j+1] 只能被当做 ""
+					 */
+					dp[i+1][j+1] = dp[i+1][j-1]
 				} else {
-					dp[i][j] = (dp[i-2][j]) || (p[i-2] == s[j-1] && (dp[i-2][j-1] || dp[i][j-1]))
+					/**
+					 * p[j] 与 s[i] 匹配上
+					 * p[j-1;j+1] 作为 "x*", 可以有三种解释
+					 */
+					dp[i+1][j+1] = dp[i+1][j-1] || /* "x*" 解释为 "" */
+						dp[i+1][j] || /* "x*" 解释为 "x" */
+						dp[i][j+1] /* "x*" 解释为 "xx..." */
 				}
-			} else if p[i-1] == '.' {
-				dp[i][j] = dp[i-1][j-1]
-			} else {
-				dp[i][j] = dp[i-1][j-1] && p[i-1] == s[j-1]
 			}
 		}
 	}
 
-	return dp[len(p)][len(s)]
+	return dp[sSize][pSize]
 }

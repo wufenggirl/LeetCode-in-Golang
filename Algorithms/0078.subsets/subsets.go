@@ -1,26 +1,11 @@
-package Problem0078
-
-import (
-	"sort"
-)
+package problem0078
 
 func subsets(nums []int) [][]int {
-	res := [][]int{}
-
-	recur(nums, []int{}, &res)
-
-	return res
-}
-
-func recur(nums, temp []int, res *[][]int) {
-	l := len(nums)
-	if l == 0 {
-		sort.Ints(temp)
-		*res = append(*res, temp)
-		return
+	res := make([][]int, 1, 1024)
+	for _, n := range nums {
+		for _, r := range res {
+			res = append(res, append([]int{n}, r...))
+		}
 	}
-
-	recur(nums[:l-1], temp, res)
-
-	recur(nums[:l-1], append([]int{nums[l-1]}, temp...), res)
+	return res
 }

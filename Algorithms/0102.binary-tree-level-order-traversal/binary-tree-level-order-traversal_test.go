@@ -1,8 +1,8 @@
-package Problem0102
+package problem0102
 
 import (
 	"fmt"
-	"github.com/aQuaYi/LeetCode-in-Golang/kit"
+	"github.com/aQuaYi/LeetCode-in-Go/kit"
 	"testing"
 
 	"github.com/stretchr/testify/assert"

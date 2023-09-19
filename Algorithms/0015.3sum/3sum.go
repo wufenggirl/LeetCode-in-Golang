@@ -1,4 +1,4 @@
-package Problem0015
+package problem0015
 
 import "sort"
 
@@ -8,6 +8,9 @@ func threeSum(nums []int) [][]int {
 	res := [][]int{}
 
 	for i := range nums {
+		if nums[i] > 0 {
+			break
+		}
 		// 避免添加重复的结果
 		// i>0 是为了防止nums[i-1]溢出
 		if i > 0 && nums[i] == nums[i-1] {

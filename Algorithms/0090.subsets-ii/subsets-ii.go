@@ -1,28 +1,30 @@
-package Problem0090
+package problem0090
 
 import "sort"
 
-func subsetsWithDup(nums []int) [][]int {
+func subsetsWithDup(A []int) [][]int {
 	res := [][]int{}
-	sort.Ints(nums)
+	sort.Ints(A)
 
 	var dfs func(int, []int)
-	dfs = func(idx int, temp []int) {
-		t := make([]int, len(temp))
-		copy(t, temp)
-		// 没有以上两行，答案就是错的
-		// 因为temp的底层数组在递归过程中，不停地修改
-		// 程序结束时，temp的底层数组的值，全部是 nums 的最大值。
-		res = append(res, t)
-
-		for i := idx; i < len(nums); i++ {
-			if i == idx || nums[i] != nums[i-1] {
-				dfs(i+1, append(temp, nums[i]))
+	dfs = func(index int, temp []int) {
+		res = append(res, temp)
+		n := len(temp) + 1
+		for i := index; i < len(A); i++ {
+			// if 语句的含义是，
+			// 在 A[index:] 中，每个数字只能附着到 temp 中一次
+			// 判断方法是 A[i] != A[i-1]
+			// 但是 A[index] == A[index-1] 也没有关系
+			// 因为 A[index-1] 不在 A[index:] 中
+			// 而且，需要执行 A[i]!=A[i-1] 时，
+			// 可以肯定 i>=1，所以，不需要验证 i-1>=0
+			if i == index || A[i] != A[i-1] {
+				dfs(i+1, append(temp, A[i])[:n:n])
 			}
 		}
 	}
 
-	temp := make([]int, 0, len(nums))
+	temp := make([]int, 0, 0)
 	dfs(0, temp)
 
 	return res

@@ -1,4 +1,4 @@
-package Problem0010
+package problem0010
 
 import (
 	"testing"
@@ -93,6 +93,24 @@ func Test_Problem0010(t *testing.T) {
 			p: para{
 				one: "aaaaaaaab",
 				two: "c*a*b",
+			},
+			a: ans{
+				one: true,
+			},
+		},
+		question{
+			p: para{
+				one: "ab",
+				two: ".*c",
+			},
+			a: ans{
+				one: false,
+			},
+		},
+		question{
+			p: para{
+				one: "ab",
+				two: "z*t*x*c*a*b",
 			},
 			a: ans{
 				one: true,

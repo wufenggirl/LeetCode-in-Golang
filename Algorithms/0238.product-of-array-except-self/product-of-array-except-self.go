@@ -1,23 +1,20 @@
-package Problem0238
+package problem0238
 
-func productExceptSelf(a []int) []int {
-	l := len(a)
-	// left[i] 是 a[i] 左侧所有元素的乘积
-	// right[i] 是 a[i] 右侧所有元素的乘积
-	left, right := make([]int, l), make([]int, l)
+func productExceptSelf(nums []int) []int {
+	size := len(nums)
 
-	// 题目已经保证了 n >= 2
-	left[0], right[l-1] = 1, 1
-	left[1], right[l-2] = a[0], a[l-1]
+	res := make([]int, size)
 
-	for i := 2; i < l; i++ {
-		left[i] = a[i-1] * left[i-1]
-		right[l-i-1] = a[l-i] * right[l-i]
+	left := 1 // product all left of nums[i]
+	for i := 0; i < size; i++ {
+		res[i] = left
+		left *= nums[i]
 	}
 
-	res := make([]int, l)
-	for i := 0; i < l; i++ {
-		res[i] = left[i] * right[i]
+	right := 1 // product all right of nums[i]
+	for i := size - 1; i >= 0; i-- {
+		res[i] *= right
+		right *= nums[i]
 	}
 
 	return res

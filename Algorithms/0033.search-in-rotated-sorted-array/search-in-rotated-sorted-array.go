@@ -1,41 +1,38 @@
-package Problem0033
+package problem0033
 
 func search(nums []int, target int) int {
-	var index, indexOfMax int
-	length := len(nums)
+	rotated := indexOfMin(nums) /* 数组旋转了的距离 */
+	size := len(nums)
+	left, right := 0, size-1
 
-	if length == 0 {
-		return -1
-	}
-
-	// 获取最大值的索引号，以便进行索引号变换
-	for indexOfMax+1 < length && nums[indexOfMax] < nums[indexOfMax+1] {
-		indexOfMax++
-	}
-
-	low, high, median := 0, length-1, 0
-	for low <= high {
-		median = (low + high) / 2
-
-		// 变换索引号
-		index = median + indexOfMax + 1
-		if index >= length {
-			index -= length
-		}
-		// 假设nums是由升序切片old转换来的
-		// 那么，old[median] == nums[index]
-
-		// 传统二分查找法的比较判断
-		// 原先需要old[median]的地方，使用nums[index]即可
+	for left <= right {
+		mid := (left + right) / 2
+		/* nums 是 rotated，所以需要使用 rotatedMid 来获取 mid 的值 */
+		rotatedMid := (rotated + mid) % size
 		switch {
-		case nums[index] > target:
-			high = median - 1
-		case nums[index] < target:
-			low = median + 1
+		case nums[rotatedMid] < target:
+			left = mid + 1
+		case target < nums[rotatedMid]:
+			right = mid - 1
 		default:
-			return index
+			return rotatedMid
 		}
 	}
 
 	return -1
+}
+
+/* nums 是被旋转了的递增数组 */
+func indexOfMin(nums []int) int {
+	size := len(nums)
+	left, right := 0, size-1
+	for left < right {
+		mid := (left + right) / 2
+		if nums[right] < nums[mid] {
+			left = mid + 1
+		} else {
+			right = mid
+		}
+	}
+	return left
 }
